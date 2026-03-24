@@ -11,7 +11,7 @@
         @livewireStyles
     </head>
     <body class="bg-obsidian text-white flex items-center justify-center min-h-screen antialiased">
-        <livewire:lobby />
+        <livewire:video-chat />
         @livewireScripts
     </body>
 </html>
