@@ -3,54 +3,78 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Translation Engine</title>
+    <title>ROConnect | Translation Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         :root {
-            --bg: #f2f6f8;
-            --card: #ffffff;
-            --text: #163047;
-            --muted: #5a738a;
-            --line: #d3e0e9;
-            --accent: #0a7d74;
-            --accent-strong: #07645d;
-            --ok: #1f8f4f;
-            --warn: #b26a00;
-            --err: #c92a2a;
-            --soft: #f8fbfe;
-            --shadow: 0 12px 34px rgba(22, 48, 71, 0.08);
+            --bg: #050505;
+            --surface: rgba(25, 25, 25, 0.72);
+            --surface-soft: rgba(255, 255, 255, 0.06);
+            --surface-strong: rgba(255, 255, 255, 0.1);
+            --text: #f4f4f5;
+            --muted: #c9c9cf;
+            --line: rgba(255, 255, 255, 0.18);
+            --accent: #0066ff;
+            --accent-strong: #0052cc;
+            --ok: #3ddc97;
+            --warn: #ffbf47;
+            --err: #ff6b6b;
+            --shadow: 0 18px 56px rgba(0, 0, 0, 0.5);
         }
 
         * { box-sizing: border-box; }
 
         body {
             margin: 0;
-            font-family: "Segoe UI", Tahoma, sans-serif;
+            font-family: "Plus Jakarta Sans", "Poppins", sans-serif;
             color: var(--text);
             background:
-                radial-gradient(circle at 10% 0%, #def3ff 0%, transparent 36%),
-                radial-gradient(circle at 90% 12%, #def8ef 0%, transparent 32%),
+                radial-gradient(circle at 12% 6%, rgba(0, 102, 255, 0.22) 0%, transparent 35%),
+                radial-gradient(circle at 85% 16%, rgba(255, 255, 255, 0.08) 0%, transparent 30%),
+                radial-gradient(circle at 50% 100%, rgba(0, 102, 255, 0.14) 0%, transparent 50%),
                 var(--bg);
             min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.08) 1px, transparent 0);
+            background-size: 40px 40px;
+            opacity: 0.28;
+            z-index: 0;
         }
 
         .container {
-            max-width: 1160px;
-            margin: 32px auto;
-            padding: 0 16px 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 28px 16px 44px;
+            position: relative;
+            z-index: 1;
         }
 
         .card {
-            background: var(--card);
+            background: var(--surface);
             border: 1px solid var(--line);
-            border-radius: 14px;
+            border-radius: 28px;
             box-shadow: var(--shadow);
-            padding: 20px;
-            margin-bottom: 14px;
+            padding: 22px;
+            margin-bottom: 18px;
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
         }
 
         h1 {
             margin: 0 0 8px;
-            font-size: 1.95rem;
+            font-size: clamp(1.7rem, 3vw, 2.35rem);
+            letter-spacing: -0.03em;
         }
 
         p {
@@ -79,52 +103,69 @@
 
         .home-link {
             text-decoration: none;
-            border: 1px solid var(--line);
+            border: 1px solid rgba(255, 255, 255, 0.22);
             border-radius: 999px;
-            padding: 8px 14px;
-            color: var(--text);
-            font-weight: 600;
-            background: var(--soft);
+            padding: 9px 15px;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.82rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: rgba(255, 255, 255, 0.06);
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .home-link:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.13);
         }
 
         .small-btn {
-            border: 1px solid var(--line);
-            background: #fff;
-            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
             border-radius: 999px;
-            padding: 7px 12px;
-            font-size: 0.84rem;
-            font-weight: 600;
+            padding: 8px 13px;
+            font-size: 0.78rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 800;
             cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease;
         }
 
         .small-btn:hover {
-            background: var(--soft);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.38);
         }
 
         label {
             display: block;
             margin: 0 0 6px;
-            font-weight: 600;
-            font-size: 0.9rem;
+            font-weight: 700;
+            font-size: 0.74rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #d4d4d8;
         }
 
         textarea,
         button {
             width: 100%;
             border: 1px solid var(--line);
-            border-radius: 10px;
+            border-radius: 14px;
             padding: 11px;
             font-size: 0.98rem;
             font-family: inherit;
             color: var(--text);
-            background: #fff;
+            background: rgba(255, 255, 255, 0.05);
         }
 
         textarea {
             min-height: 220px;
             resize: vertical;
             line-height: 1.5;
+            color: #ffffff;
         }
 
         .selector-row {
@@ -142,8 +183,8 @@
         .lang-trigger {
             width: 100%;
             border: 1px solid var(--line);
-            border-radius: 10px;
-            background: #fff;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.05);
             padding: 10px;
             display: flex;
             align-items: center;
@@ -155,8 +196,8 @@
         }
 
         .lang-trigger:hover {
-            border-color: #b9ccd9;
-            background: #fcfeff;
+            border-color: rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.09);
         }
 
         .lang-left {
@@ -201,11 +242,13 @@
             width: 100%;
             margin-top: 6px;
             border: 1px solid var(--line);
-            border-radius: 12px;
-            background: #fff;
-            box-shadow: 0 16px 32px rgba(16, 30, 43, 0.16);
+            border-radius: 16px;
+            background: rgba(18, 18, 18, 0.95);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
             padding: 8px;
             display: none;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
 
         .menu.open {
@@ -215,10 +258,12 @@
         .menu-search {
             width: 100%;
             border: 1px solid var(--line);
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 8px 10px;
             margin-bottom: 8px;
             font-size: 0.88rem;
+            background: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
         }
 
         .menu-list {
@@ -230,8 +275,8 @@
 
         .menu-item {
             border: 1px solid transparent;
-            border-radius: 8px;
-            background: #fff;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.02);
             padding: 8px;
             text-align: left;
             display: flex;
@@ -243,13 +288,13 @@
         }
 
         .menu-item:hover {
-            background: var(--soft);
+            background: rgba(255, 255, 255, 0.08);
             border-color: var(--line);
         }
 
         .menu-item.active {
-            background: #e9f8f3;
-            border-color: #c7eee1;
+            background: rgba(0, 102, 255, 0.18);
+            border-color: rgba(0, 102, 255, 0.4);
         }
 
         .swap-btn {
@@ -257,8 +302,8 @@
             height: 42px;
             border-radius: 999px;
             border: 1px solid var(--line);
-            background: var(--soft);
-            color: var(--text);
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
             cursor: pointer;
             padding: 0;
         }
@@ -267,7 +312,9 @@
             background: var(--accent);
             border: 0;
             color: #fff;
-            font-weight: 700;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
             cursor: pointer;
             transition: transform 0.15s ease, background 0.15s ease;
         }
@@ -298,18 +345,22 @@
         }
 
         .clear-btn {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.08);
             border: 1px solid var(--line);
-            color: var(--text);
+            color: #ffffff;
         }
 
         .clear-btn:hover {
-            background: var(--soft);
+            background: rgba(255, 255, 255, 0.14);
         }
 
         .panel-title {
             margin: 0 0 8px;
             font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 800;
+            color: #e4e4e7;
         }
 
         .state {
@@ -323,11 +374,17 @@
         .state.warn { background: #fff4e0; color: var(--warn); }
         .state.error { background: #ffe8e8; color: var(--err); }
 
+        .state.ok,
+        .state.warn,
+        .state.error {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
         .usage-panel {
             margin-top: 12px;
             border: 1px solid var(--line);
-            border-radius: 12px;
-            background: var(--soft);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.05);
             padding: 12px;
         }
 
@@ -347,8 +404,8 @@
 
         .usage-item {
             border: 1px solid var(--line);
-            border-radius: 10px;
-            background: #ffffff;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.06);
             padding: 10px;
         }
 
@@ -364,7 +421,7 @@
             display: block;
             margin-top: 4px;
             font-size: 1rem;
-            color: var(--text);
+            color: #ffffff;
         }
 
         .meta {
@@ -376,9 +433,9 @@
 
         .meta div {
             border: 1px solid var(--line);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 10px;
-            background: #fbfdff;
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .meta strong {
@@ -395,8 +452,8 @@
             font-family: Consolas, "Courier New", monospace;
             min-height: 220px;
             border: 1px solid var(--line);
-            border-radius: 10px;
-            background: #fff;
+            border-radius: 14px;
+            background: rgba(10, 10, 10, 0.72);
             padding: 12px;
         }
 
@@ -422,8 +479,8 @@
 
         .gauge-card {
             border: 1px solid var(--line);
-            border-radius: 12px;
-            background: #fff;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.05);
             padding: 12px;
         }
 
@@ -446,7 +503,7 @@
             width: 74px;
             height: 74px;
             border-radius: 999px;
-            background: conic-gradient(var(--accent) calc(var(--pct) * 1%), #e8f0f5 0);
+            background: conic-gradient(var(--accent) calc(var(--pct) * 1%), rgba(255, 255, 255, 0.18) 0);
             position: relative;
             flex-shrink: 0;
         }
@@ -456,7 +513,7 @@
             position: absolute;
             inset: 8px;
             border-radius: 999px;
-            background: #fff;
+            background: rgba(10, 10, 10, 0.88);
         }
 
         .gauge-label {
@@ -504,7 +561,7 @@
             border-radius: 999px;
             padding: 6px 10px;
             border: 1px solid var(--line);
-            background: #fff;
+            background: rgba(255, 255, 255, 0.06);
             color: var(--muted);
             font-size: 0.84rem;
             font-weight: 600;
@@ -542,8 +599,13 @@
 
             .swap-btn {
                 width: 100%;
-                border-radius: 10px;
+                border-radius: 14px;
                 height: 40px;
+            }
+
+            .card {
+                border-radius: 22px;
+                padding: 16px;
             }
         }
     </style>
@@ -554,7 +616,7 @@
         <div class="header">
             <div class="title-wrap">
                 <h1>Translation Engine</h1>
-                <p>Type naturally and get translations in near real-time with automatic language detection.</p>
+                <p>Live multilingual translation that follows the same ROConnect visual language and interaction flow.</p>
             </div>
             <div class="toolbar">
                 <button id="clear-input" class="small-btn" type="button">Clear Input</button>
